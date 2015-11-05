@@ -57,7 +57,7 @@ namespace ClickToCall.Web.Tests.Controllers
 
             // Assert
             Assert.That(result, Is.Not.Null);
-            Assert.That(controller.Response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
+            Assert.That(((HttpStatusCodeResult) result).StatusCode, Is.EqualTo((int)HttpStatusCode.Unauthorized));
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace ClickToCall.Web.Tests.Controllers
 
             // Act
             ActionResult result = controller.Connect();
-            result.ExecuteResult(GetControllerContextBasedOnMocks());
+            result.ExecuteResult(controller.ControllerContext);
 
             // Assert
             var twilioResponse = LoadXml(outputStream.ToString());

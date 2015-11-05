@@ -51,9 +51,7 @@ namespace ClickToCall.Web.Controllers
             }
 
             var twilioNumber = ConfigurationManager.AppSettings["TwilioNumber"];
-
             _twilioService.CallToNumber(twilioNumber, contact.Phone, Url.Action("Connect", "Call",null,Request.Url.Scheme));
-
             return Json(new { success = true, message = "Phone call incoming!"});
         }
     }

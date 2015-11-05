@@ -8,12 +8,13 @@ namespace ClickToCall.Web.Domain.Services
 {
     public class TwilioService : ITwilioService
     {
-        private static Lazy<TwilioRestClient> _twilioOutClient 
-            = new Lazy<TwilioRestClient>(() => new TwilioRestClient(ConfigurationManager.AppSettings["TwilioAccountSID"], ConfigurationManager.AppSettings["TwilioAuthToken"]));
+        private static readonly Lazy<TwilioRestClient> TwilioClient 
+            = new Lazy<TwilioRestClient>(
+                () => new TwilioRestClient(ConfigurationManager.AppSettings["TwilioAccountSID"], ConfigurationManager.AppSettings["TwilioAuthToken"]));
 
         public void CallToNumber(string originNumber, string destinationNumber, string handlerUri)
         {
-            _twilioOutClient.Value.InitiateOutboundCall(originNumber, destinationNumber, handlerUri);
+            TwilioClient.Value.InitiateOutboundCall(originNumber, destinationNumber, handlerUri);
         }
     }
 }

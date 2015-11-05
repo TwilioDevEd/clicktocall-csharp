@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime.Tree;
 using ClickToCall.Web.Domain.Services;
+using Twilio.TwiML;
+using Twilio.TwiML.Mvc;
 
 namespace ClickToCall.Web.Controllers
 {
@@ -26,9 +29,17 @@ namespace ClickToCall.Web.Controllers
             _twilioRequestValidatorService = twilioRequestValidatorService;
         }
 
-        public ViewResult Connect()
+        public ActionResult Connect()
         {
-            return new ViewResult();
+            var twilioAuthToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
+            if (!_twilioRequestValidatorService.ValidateCurrentRequest(System.Web.HttpContext.Current, twilioAuthToken))
+                return new HttpUnauthorizedResult();
+
+            var response = new TwilioResponse();
+            response.Say("If this were a real click to call implementation, you would be connected to an agent at this point.");
+            response.Hangup();
+
+            return new TwiMLResult(response);
         }
     }
 }

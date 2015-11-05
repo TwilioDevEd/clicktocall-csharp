@@ -37,7 +37,7 @@ namespace ClickToCall.Web.Tests.Controllers
         protected Mock<ITwilioRequestValidatorService> GetTwilioRequestValidatorMock(bool withSuccessTwilioRequestAlways)
         {
             var mock = MockRepository.Create<ITwilioRequestValidatorService>();
-            mock.Setup(service => service.ValidateCurrentRequest()).Returns(withSuccessTwilioRequestAlways);
+            mock.Setup(service => service.ValidateCurrentRequest(It.IsAny<HttpContext>(), It.IsAny<string>())).Returns(withSuccessTwilioRequestAlways);
             return mock;
         }
 
@@ -49,10 +49,15 @@ namespace ClickToCall.Web.Tests.Controllers
             mockRequest.SetupGet(r => r.Url).Returns(new Uri("http://www.localhost.com"));
 
             var mockResponse = new Mock<HttpResponseBase>();
-            mockResponse.Setup(r => r.Write(It.IsAny<string>())).Callback<string>(c => result.Append(c));
-            mockResponse.Setup(r => r.Output).Returns(new StringWriter(result));
+            mockResponse.Setup(r => r.Write(It.IsAny<string>()))
+                .Callback<string>(c =>
+                {
+                    result.Append(c);
+                });
+            mockResponse.Setup(r => r.Output)
+                .Returns(new StringWriter(result));
             mockResponse.Setup(r => r.ApplyAppPathModifier(It.IsAny<string>()))
-                            .Returns((string s) => s);
+                .Returns((string s) => s);
 
             var controllerContextMock = new Mock<ControllerContext>();
             controllerContextMock.Setup(x => x.HttpContext.Response).Returns(mockResponse.Object);
