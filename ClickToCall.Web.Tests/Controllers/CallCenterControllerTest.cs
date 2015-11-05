@@ -21,7 +21,6 @@ namespace ClickToCall.Web.Tests.Controllers
     [TestFixture]
     public class CallCenterControllerTest : BaseControllerTests
     {
-        private string _twilioNumber;
         private Contact _contact;
 
         public Mock<ITwilioService> CurrentTwilioServiceMock;
@@ -39,14 +38,15 @@ namespace ClickToCall.Web.Tests.Controllers
                 {
                     ControllerContext = GetControllerContextBasedOnMocks(out outputStream)
                 };
+            RouteCollection routes = new RouteCollection();
+            RouteConfig.RegisterRoutes(routes);
+            controller.Url = new UrlHelper(new RequestContext(controller.HttpContext, new RouteData()), routes);
             return controller;
         }
 
         [TestFixtureSetUp]
         public void Init()
         {
-            // TODO: move to app.config
-            _twilioNumber = "15008675309";
             _contact = new Contact { Phone = "12066505813" };
         }
 
