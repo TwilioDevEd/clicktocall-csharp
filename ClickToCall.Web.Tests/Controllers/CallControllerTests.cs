@@ -12,7 +12,6 @@ using System.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ClickToCall.Web.Controllers;
 using ClickToCall.Web.Models;
-using ClickToCall.Web.Services;
 using Moq;
 using NUnit.Framework;
 using Twilio.TwiML;

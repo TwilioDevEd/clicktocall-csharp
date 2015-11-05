@@ -16,12 +16,12 @@ $(function () {
 
         // Submit the form via ajax
         $.ajax({
-            url: '/call',
+            url: '/CallCenter/Call',
             method: 'POST',
             data: $form.serialize()
         }).done(function (data) {
             alert(data.message);
-        }).fail(function () {
+        }).fail(function (error) {
             alert('There was a problem calling you - please try again later.');
         }).always(function () {
             $submit.removeAttr('disabled');

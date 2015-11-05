@@ -9,7 +9,7 @@ using System.Web.Routing;
 using System.Web.WebPages;
 using System.Xml;
 using ClickToCall.Web.Controllers;
-using ClickToCall.Web.Services;
+using ClickToCall.Web.Domain.Services;
 using Moq;
 using NUnit.Framework;
 

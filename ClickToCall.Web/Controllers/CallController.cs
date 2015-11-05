@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime.Tree;
-using ClickToCall.Web.Services;
+using ClickToCall.Web.Domain.Services;
 
 namespace ClickToCall.Web.Controllers
 {

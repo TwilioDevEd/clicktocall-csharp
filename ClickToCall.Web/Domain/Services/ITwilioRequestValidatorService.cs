@@ -1,4 +1,4 @@
-﻿namespace ClickToCall.Web.Services
+﻿namespace ClickToCall.Web.Domain.Services
 {
     public interface ITwilioRequestValidatorService
     {

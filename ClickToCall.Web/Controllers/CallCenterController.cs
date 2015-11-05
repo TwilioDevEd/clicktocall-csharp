@@ -4,8 +4,8 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ClickToCall.Web.Domain.Services;
 using ClickToCall.Web.Models;
-using ClickToCall.Web.Services;
 using Twilio;
 using Twilio.TwiML;
 using Twilio.TwiML.Mvc;
@@ -42,6 +42,7 @@ namespace ClickToCall.Web.Controllers
         /// <summary>
         /// Handle a POST from our web form and connect a call via REST API
         /// </summary>
+        [HttpPost]
         public JsonResult Call(Contact contact)
         {
             if (!ModelState.IsValid)
