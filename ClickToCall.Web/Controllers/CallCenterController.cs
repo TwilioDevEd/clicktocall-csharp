@@ -51,8 +51,20 @@ namespace ClickToCall.Web.Controllers
             }
 
             var twilioNumber = ConfigurationManager.AppSettings["TwilioNumber"];
-            _twilioService.CallToNumber(twilioNumber, contact.Phone, Url.Action("Connect", "Call",null,Request.Url.Scheme));
+
+            // The following line is how you should get the absolute Uri in an internet faced server or a production environment
+            //var handlerUri = Url.Action("Connect", "Call", null, Request.Url.Scheme);
+
+            // this line allow us to get the absolute Uri in a local computer using a secure instrospectable service like ngrok ;)
+            var handlerUri = GetTestUri();
+
+            _twilioService.CallToNumber(twilioNumber, contact.Phone, handlerUri);
             return Json(new { success = true, message = "Phone call incoming!"});
+        }
+
+        private string GetTestUri()
+        {
+            return String.Format("{0}://{1}{2}", Request.Url.Scheme, ConfigurationManager.AppSettings["TestDomain"], Url.Action("Connect", "Call"));
         }
     }
 }

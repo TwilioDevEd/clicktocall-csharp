@@ -29,6 +29,7 @@ namespace ClickToCall.Web.Controllers
             _twilioRequestValidatorService = twilioRequestValidatorService;
         }
 
+        [HttpPost]
         public ActionResult Connect()
         {
             var twilioAuthToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
