@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ClickToCall.Web.Services
+﻿namespace ClickToCall.Web.Services
 {
     public interface ITwilioService
     {

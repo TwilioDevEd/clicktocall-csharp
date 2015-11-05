@@ -14,6 +14,16 @@ namespace ClickToCall.Web.Controllers
     {
         private readonly ITwilioService _twilioService;
 
+        /// <summary>
+        /// This parameterless with high coupling is done in order to keep the tutorial simple, 
+        /// and not using a Dependency Injection which is the right approach
+        /// </summary>
+        public CallCenterController()
+        {
+            _twilioService = new TwilioService();
+        }
+
+
         public CallCenterController(ITwilioService twilioService)
         {
             _twilioService = twilioService;
