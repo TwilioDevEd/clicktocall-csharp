@@ -21,6 +21,7 @@ $(function () {
             data: $form.serialize()
         }).done(function (data) {
             alert(data.message);
+            $('form')[0].reset();
         }).fail(function (error) {
             alert('There was a problem calling you - please try again later.');
         }).always(function () {
