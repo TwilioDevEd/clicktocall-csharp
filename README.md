@@ -1,7 +1,7 @@
 # Click-To-Call - ASP.NET MVC: Converting web traffic into phone calls with Twilio.
-<!---
-[![Build status](https://ci.appveyor.com/api/projects/status/j65aeh8inbqlav0s?svg=true)](https://ci.appveyor.com/project/TwilioDevEd/conference-broadcast-csharp)
--->
+
+[![Build status](https://ci.appveyor.com/api/projects/status/6s0361vs4fw528dy?svg=true)](https://ci.appveyor.com/project/TwilioDevEd/call-tracking-csharp-3pmme)
+
 Click-to-call enables your company to convert web traffic into phone calls with the click of a button. Learn how to implement it in minutes.
 
 ### Local development
@@ -17,7 +17,7 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 
    ```
    <appSettings file="Local.config">
-	    <add key="TwilioAccountSID" value="your_account_SID" />
+        <add key="TwilioAccountSID" value="your_account_SID" />
 	    <add key="TwilioAuthToken" value="your_twilio_auth_token" />
 	    <add key="TwilioNumber" value="your_twilio_number" />
 	    <add key="TestDomain" value="<your-ngrok-subdomain>.ngrok.io"/>
