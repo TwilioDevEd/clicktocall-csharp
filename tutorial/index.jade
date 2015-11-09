@@ -1,0 +1,226 @@
+.chapter(data-title='Click-to-Call')
+  .step(data-title='How it Works')
+    :markdown
+      ## How It Works
+
+      Let's go over the steps necessary to implement click-to-call in our application:
+
+      ![Click-to-call Diagram](//s3-us-west-2.amazonaws.com/deved/clicktocall.png)
+
+      1. A website visitor wants to connect to your organization. He/She submits a web form with her phone number to receive a call connecting her to your sales or support team.
+
+      1. Your web application receives the form submission. An HTTP request is initiated from your application to Twilio to initiate an outbound call.
+
+      1. Twilio receives the request and initiates a call to the user's phone number.
+
+      1. User receives the call.
+
+      1. After the call connects, Twilio asks our application for [TwiML instructions](/docs/api/twiml). Our TwiML instructs Twilio to connect the user to our sales or support teams.
+
+      ## What We Will Learn
+
+      This How-To demonstrates initializing a call using the [Twilio REST API][rest] and creating TwiML call logic using the [Say][say] and [Dial][dial] verbs.
+
+      Sound like a plan? Let's get started!
+
+      [rest]: /docs/api/rest/
+      [dial]: /docs/api/twiml/dial
+      [say]: /docs/api/twiml/say
+
+  .step(data-title="Application Overview", data-file='ClickToCall.Web/Controllers/CallCenterController.cs')
+    :markdown
+      ## Our ASP.NET MVC Application
+
+      In this example, we're using the [ASP.NET MVC](http://www.asp.net/mvc/overview/getting-started) above [Microsoft.Net Framework](https://www.microsoft.com/net).
+      ASP.NET MVC is a popular, robust web framework that provides HTTP request routing, server-side HTML rendering, model creation/validation and a
+      configurable middleware stack to process incoming requests.
+
+      To run this application locally, you can download it from [GitHub](https://github.com/TwilioDevEd/clicktocall-csharp) or cloning it in your desktop
+      with git like this:
+      ```
+      git clone git@github.com:TwilioDevEd/clicktocall-csharp.git
+      ```
+      After extracting the app to a local directory, you can hit `Ctrl + F5`,
+      that will build the solution, not before install all the [Nuget Packages](https://www.nuget.org/) dependencies(including the Twilio ones) and finally it will
+      open a window of your default web browser with the Click-to-Call Application up and running.
+
+      Most of the server-side code for this example is found in `ClickToCall.Web/Controllers/CallCenterController.cs`. We'll check that out in a moment, but first
+      we need to configure our application with our Twilio account information.
+
+      **See Also:**
+
+      * [The Twilio C# Helper Library](//www.twilio.com/docs/csharp/install)
+
+  .step(data-title='Environment', data-file='ClickToCall.Web/Web.config', data-highlight="19-22")
+    :markdown
+      ## Application Configuration
+
+      In order to get our application working properly we need to do some tiny configuration first. So lets get to it:
+
+      You need to create a Local.config file under the `ClickToCall.Web/` directory with the following content:
+      ```
+        <?xml version="1.0" encoding="utf-8"?>
+        <appSettings>
+          <add key="TwilioAccountSID" value="your_account_SID" />
+          <add key="TwilioAuthToken" value="your_twilio_auth_token" />
+          <add key="TwilioNumber" value="your_twilio_number" />
+          <add key="TestDomain" value="<your-ngrok-subdomain>.ngrok.io"/>
+        </appSettings>
+      ```
+      This content will override the one highlighted on the right.
+      Note that you have to replace the placeholders *your_account_SID*, *your_twilio_auth_token* and *your_twilio_number* with your correspondent Twilio information
+      which you can find at in your [Account Dashboard](/user/account).
+
+      Also you need to replace *<your-ngrok-subdomain>* with your **ngrok**'s subdomain(redundanly speaking). You may be wondering what or why is that?. Well, it's
+      easy, this application uses [Webhooks](https://en.wikipedia.org/wiki/Webhook), which means you have to expose endpoints ergo they needs to be publicly
+      accessible.[We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)
+      and once you get to know it it's really easy to use. You can get more info about **ngrok** and how to get your ngrok's subdomain once you're using it
+      [here](//www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)
+
+      Now get ready to hit `Ctrl + F5` and do it.That's all!.
+
+  .step(data-title='Implementation')
+    :markdown
+      ## Implementation
+
+      Now that we've got our environment set up, we can implement our click-to-call
+      feature.
+
+      First, we'll need to create a HTML page and a form that we'll use to get the User's phone number. Then, we'll build a controller to receive the user's phone
+      number and place a call using Twilio's REST API.  Finally, we'll need our app to provide TwiML
+      instructions to connect the user to our sales or support team.
+
+      Let's walk through that code together.
+  .step(data-title="A simple web form", data-file='ClickToCall.Web/Views/CallCenter/Index.cshtml', data-highlight="12-23", data-language="htmlembedded")
+    :markdown
+      ## The Web Form
+
+      The first step in creating a real click-to-call solution is by building the form that your user will see on the web. No need to overthink this, the real goal
+      is to POST the User's name and phone number to your controller.
+
+      We've also added a prompt in case the User is on a smart phone that will allow them to simply click on the telephone number and connect to an agent.
+
+      So what does this form need to have? An input for user name, an input for the phone number and a submit button. Since the page really doesn't need to change
+      after submit we decided to implement the POST action via Ajax using jQuery. Next, let's take a look at how we are implementing this AJAX form submit.
+
+  .step(data-title='Submit the form', data-file='ClickToCall.Web/Scripts/app.js', data-highlight="11-33")
+    :markdown
+      ## Submit the form with Ajax
+
+      To make the click to call feature more seamless we used [Ajax](https://developer.mozilla.org/en-US/docs/AJAX) to send the form asynchronously. This code shows
+      one way you could implement this functionality using [jQuery](http://jquery.org).
+
+      Functionally this code does the following:
+
+      * Watches for the user "submitting" the form element
+      * Submits that form data to our controller
+      * Let's the user know if the submission was successful or not
+
+      This is a pretty common implementation of jQuery's $.ajax() method, but notice that we are returning the response message when the call has connected.
+
+      Now that we have the front-end done, let's build a controller that will receive this data and call the user.
+  .step(data-title='The Rails Controller', data-file='ClickToCall.Web/Controllers/CallCenterController.cs')
+    :markdown
+      ## The Controllers - Overview
+
+      In every MVC Web Framework the controller is really the meat of an application. In our application we have implemented 2 controllers.
+
+      The first one is `CallCenterController`, this the one designed to manage our application form requests and perform the consequent Twilio Service's
+      `CallToNumber` invocation.
+
+      The second and final is `CallController` which is the one charge to tell Twilio what to do after it connects the call.
+      After all that if we were to spec out our controllers they would need to do the following things:
+
+      `CallCenterController`:
+      * Render the home page with the form on it
+      * Create an endpoint that our form can post to
+      * Initiate a phone call to the user's phone number
+
+      `CallController`:
+      * Create an endpoint that will host our Twilio instructions (TwiML)
+      * (Optional) Check that all incoming requests are from Twilio
+
+      Let's take a look at this part of application in more detail.
+  .step(data-title="Getting contact information", data-file='ClickToCall.Web/Controllers/CallCenterController.cs', data-highlight="42-51")
+    :markdown
+      ## Call Center Controller: Getting a valid contact phone and placing a call to it.
+
+      Before our controller can make a phone call we need to check that the data it is receiving is valid. In our case we want to make sure a
+      valid __Phone__ is present. The easiest way to do this is to create a Model from the data and add the data annotations needed to validate it.
+      Let's quickly take a look at what this looks like.
+
+      ```
+      # Simple model to handle validation
+      public class Contact
+      {
+          [Required]
+          [Phone]
+          public string Phone { get; set; }
+      }
+      ```
+
+      Creating a `Contact` model allows us to validate the phone number using the `Required` and `Phone` data annotations gem.
+      Additionally this sort of workflow will scale nicely if you decide to store these Contacts in a database.
+
+      Now all we need to do to validate the model is call `ModelsState.IsValid` on the controller. Once we've got an all clear we can make a
+      `CallToNumber` invocation to the `_twilioService` object injected through the controller's constructor passing it our Account SID and Auth Token.
+      We'll discuss short after this how this service works.
+      Assuming we have successfully send a request to place a call to our client/user, we need to send a response to the browser telling it that all went well.
+      This is the message that our ajax handler was expecting.
+
+      Note that we are using an interface to sketch out our Twilio Service. This is a good practice that can make your applications easier to test and
+      maintain and also aligns with [Service Layer Pattern](http://martinfowler.com/eaaCatalog/serviceLayer.html) approach. For further reading on using
+      interfaces to sketching up domain services check [this](https://visualstudiomagazine.com/articles/2010/01/01/interface-based-programming.aspx).
+
+  .step(data-title='Making a Phone Call', data-file='ClickToCall.Web/Domain/Services/TwilioService.cs', data-highlight="11-14, 17")
+    :markdown
+      ## Making a Phone Call with our Twilio Service
+
+      This service uses under the hood `TwilioRestClient`, a type bundled in
+      [Twilio .NET Helper Library for .NET, ASP.NET, ASP.NET MVC](https://github.com/twilio/twilio-csharp), as our Twilio Rest API handler, which we could
+      use to send SMS, generate TwiML or a myriad of other things. But for now we just need to create a phone call.
+
+      Next we'll use the REST API to [make an outgoing phone call](/docs/api/rest/making-calls) which requires we pass it a From number(origin),
+      a To number(destination) and the[URL Parameter](/docs/api/rest/making-calls#url-parameter) that tells Twilio what to do after it connects the
+      call to our user.
+
+
+  .step(data-title='When the call connects', data-file='ClickToCall.Web/Controllers/CallController.cs', data-highlight="32-44")
+    :markdown
+      ## Call Controller: Telling Twilio what to do when the call connects
+
+      Well this easy, we just have to tell Twilio what to do when he reach us once the call gets connected at the url we gave him short ago, which is mapped to
+      the `Connect` action of the `CallController`.
+
+      Note that the first thing we have to do is to validate the incoming request comes from Twilio, so that way we are sure there is really Twilio who is
+      contacting us and not a third party acting as Twilio. For this we'll use a Twilio Validation Service implemented by us using the Twilio .NET Helper Library's
+      `RequestValidator`class, although we could use also a provided data annotation for this purpose, but as this application is for learning intended we'll a
+      custom implemented service to show how it works. Anyway we'll go deeper on this shortly.
+
+      Once you're sure the request comes from Twilio we have to tell what to do, and this could accomplished by using Twilio verbs.
+      TwiML is a set of [simple verbs](/docs/api/twiml#verbs), written in XML, that Twilio reads as instructions. In this case our instructions inform
+      Twilio to simply SAY something to the user and then HANGUP. In a real world case, we would have to say Twilio that needs to DIAL in the Agent
+      once the call has been placed.
+
+      In order to make writing TwiML as easy as possible, many of the helper libraries
+      have methods that generate TwiML for you. In this case, we want to use Twilio .NET Helper Library's to create a TwiML response that will say something and
+      then hangup in the agent so we create `TwilioResponse` type and we use the methods `Say` and Hangup` to express Twilio verbs.
+
+  .step(data-title='Validating Twilio request', data-file='ClickToCall.Web/Domain/Services/TwilioRequestValidatorService.cs')
+    :markdown
+      ## Validating Twilio request with our Twilio Validator Service
+
+      This service unique purpose is to return a boolean indicating if the current incoming request comes from Twilio. It's very simple, it receives
+      the request `HttpContext` object and an authentication token, and passes to a `IsValidRequest` method invocation of a `RequestValidator`. This one is
+      provided by Twilio .NET Helper Library'.
+
+      That's all.
+
+  .step(data-title='Conclusions')
+    :markdown
+      ## All Done
+      Congrats! You just learned how to build a working Click-to-Call solution. To improve upon this you could add two-factor authentication to your app,
+      or create an interactive survey to follow-up with your customer.
+
+      Thanks for checking out this tutorial! If you have any feedback to share with us, we'd love to hear it.
+      Tweet [@twilio](http://twitter.com/twilio) to let us know what you think.
