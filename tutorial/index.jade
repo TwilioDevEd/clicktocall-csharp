@@ -40,12 +40,11 @@
       ```
       git clone git@github.com:TwilioDevEd/clicktocall-csharp.git
       ```
-      After extracting the app to a local directory, you can hit `Ctrl + F5`,
+      After extracting the app to a local directory, you can open `ClickToCall.Web.sln` file from Visual Studio 2015 and hit `Ctrl + F5`,
       that will build the solution, not before install all the [Nuget Packages](https://www.nuget.org/) dependencies(including the Twilio ones) and finally it will
       open a window of your default web browser with the Click-to-Call Application up and running.
 
-      Most of the server-side code for this example is found in `ClickToCall.Web/Controllers/CallCenterController.cs`. We'll check that out in a moment, but first
-      we need to configure our application with our Twilio account information.
+      Now we need to configure our application with our Twilio account information.
 
       **See Also:**
 
@@ -68,10 +67,10 @@
         </appSettings>
       ```
       This content will override the one highlighted on the right.
-      Note that you have to replace the placeholders *your_account_SID*, *your_twilio_auth_token* and *your_twilio_number* with your correspondent Twilio information
-      which you can find at in your [Account Dashboard](/user/account).
+      Note that you have to replace the placeholders `your_account_SID`, `your_twilio_auth_token` and `your_twilio_number` with your correspondent Twilio information
+      which you can find at in your [Account Dashboard](/user/account).Also you need to replace `<your-ngrok-subdomain>` with your **ngrok**'s subdomain(redundanly speaking).
 
-      Also you need to replace *<your-ngrok-subdomain>* with your **ngrok**'s subdomain(redundanly speaking). You may be wondering what or why is that?. Well, it's
+      You may be wondering what or why is that?. Well, it's
       easy, this application uses [Webhooks](https://en.wikipedia.org/wiki/Webhook), which means you have to expose endpoints ergo they needs to be publicly
       accessible.[We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html)
       and once you get to know it it's really easy to use. You can get more info about **ngrok** and how to get your ngrok's subdomain once you're using it
@@ -79,7 +78,7 @@
 
       Now get ready to hit `Ctrl + F5` and do it.That's all!.
 
-  .step(data-title='Implementation')
+  .step(data-title='Implementation', data-file='ClickToCall.Web/Views/CallCenter/Index.cshtml')
     :markdown
       ## Implementation
 
@@ -91,7 +90,7 @@
       instructions to connect the user to our sales or support team.
 
       Let's walk through that code together.
-  .step(data-title="A simple web form", data-file='ClickToCall.Web/Views/CallCenter/Index.cshtml', data-highlight="12-23", data-language="htmlembedded")
+  .step(data-title="A simple web form", data-file='ClickToCall.Web/Views/CallCenter/Index.cshtml', data-highlight="12-23", data-language="html")
     :markdown
       ## The Web Form
 
@@ -123,13 +122,13 @@
     :markdown
       ## The Controllers - Overview
 
-      In every MVC Web Framework the controller is really the meat of an application. In our application we have implemented 2 controllers.
+      In every MVC Web Framework the controller is really the meat of an application. In our application we had to implemented 2 controllers.
 
-      The first one is `CallCenterController`, this the one designed to manage our application form requests and perform the consequent Twilio Service's
+      The first one would be named `CallCenterController`, and it's the one designed to manage our application form requests and perform the consequent Twilio Service's
       `CallToNumber` invocation.
 
-      The second and final is `CallController` which is the one charge to tell Twilio what to do after it connects the call.
-      After all that if we were to spec out our controllers they would need to do the following things:
+      The second one `CallController`, which is the one charge to tell Twilio what to do after it connects the call.
+      So, if we were to spec out our controllers they would need to do the following things:
 
       `CallCenterController`:
       * Render the home page with the form on it
@@ -150,7 +149,7 @@
       Let's quickly take a look at what this looks like.
 
       ```
-      # Simple model to handle validation
+      // Simple model to handle validation
       public class Contact
       {
           [Required]
@@ -159,18 +158,18 @@
       }
       ```
 
-      Creating a `Contact` model allows us to validate the phone number using the `Required` and `Phone` data annotations gem.
+      Creating a `Contact` model allows us to validate the phone number using the `Required` and `Phone` data annotations attributes.
       Additionally this sort of workflow will scale nicely if you decide to store these Contacts in a database.
 
       Now all we need to do to validate the model is call `ModelsState.IsValid` on the controller. Once we've got an all clear we can make a
-      `CallToNumber` invocation to the `_twilioService` object injected through the controller's constructor passing it our Account SID and Auth Token.
+      `CallToNumber` method invocation to `_twilioService` object injected through the controller's constructor passing it our Account SID and Auth Token.
       We'll discuss short after this how this service works.
       Assuming we have successfully send a request to place a call to our client/user, we need to send a response to the browser telling it that all went well.
       This is the message that our ajax handler was expecting.
 
       Note that we are using an interface to sketch out our Twilio Service. This is a good practice that can make your applications easier to test and
       maintain and also aligns with [Service Layer Pattern](http://martinfowler.com/eaaCatalog/serviceLayer.html) approach. For further reading on using
-      interfaces to sketching up domain services check [this](https://visualstudiomagazine.com/articles/2010/01/01/interface-based-programming.aspx).
+      interfaces to sketching up domain services, check [this](https://visualstudiomagazine.com/articles/2010/01/01/interface-based-programming.aspx).
 
   .step(data-title='Making a Phone Call', data-file='ClickToCall.Web/Domain/Services/TwilioService.cs', data-highlight="11-14, 17")
     :markdown
