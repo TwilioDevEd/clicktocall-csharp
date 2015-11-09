@@ -6,11 +6,16 @@ using Twilio;
 
 namespace ClickToCall.Web.Domain.Services
 {
+    public interface ITwilioService
+    {
+        void CallToNumber(string originNumber, string destinationNumber, string handlerUri);
+    }
+
     public class TwilioService : ITwilioService
     {
         private static readonly Lazy<TwilioRestClient> TwilioClient 
-            = new Lazy<TwilioRestClient>(
-                () => new TwilioRestClient(ConfigurationManager.AppSettings["TwilioAccountSID"], ConfigurationManager.AppSettings["TwilioAuthToken"]));
+            = new Lazy<TwilioRestClient>(() => new TwilioRestClient(ConfigurationManager.AppSettings["TwilioAccountSID"], 
+                                                                    ConfigurationManager.AppSettings["TwilioAuthToken"]));
 
         public void CallToNumber(string originNumber, string destinationNumber, string handlerUri)
         {

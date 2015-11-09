@@ -6,9 +6,15 @@ using Twilio.TwiML;
 
 namespace ClickToCall.Web.Domain.Services
 {
+    public interface ITwilioRequestValidatorService
+    {
+        bool ValidateCurrentRequest(HttpContext context, string authToken);
+    }
+
     public class TwilioRequestValidatorService : ITwilioRequestValidatorService
     {
-        private static readonly Lazy<RequestValidator> TwilioRequestValidator = new Lazy<RequestValidator>(() => new RequestValidator());
+        private static readonly Lazy<RequestValidator> TwilioRequestValidator 
+            = new Lazy<RequestValidator>(() => new RequestValidator());
 
         public bool ValidateCurrentRequest(HttpContext context, string authToken)
         {
