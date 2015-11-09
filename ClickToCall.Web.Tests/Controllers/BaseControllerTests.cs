@@ -24,10 +24,13 @@ namespace ClickToCall.Web.Tests.Controllers
             var mock = new Mock<ITwilioService>(MockBehavior.Loose);
 
             mock.Setup(
-                s => s.CallToNumber(It.IsAny<string>(), It.IsAny<string>(),It.Is<string>(uri => System.Uri.IsWellFormedUriString(uri, UriKind.Absolute))))
+                s => s.CallToNumber(It.IsAny<string>(), 
+                                    It.IsAny<string>(),
+                                    It.Is<string>(uri => System.Uri.IsWellFormedUriString(uri, UriKind.Absolute))))
                 .Callback(() =>
                 {
-                    ActionResult result = new CallController(GetTwilioRequestValidatorMock(withSuccessTwilioRequestAlways: true).Object).Connect();
+                    ActionResult result = new CallController(GetTwilioRequestValidatorMock(withSuccessTwilioRequestAlways: true).Object)
+                        .Connect();
                     Assert.That(result, Is.Not.Null);
                 })
                 .Verifiable();
@@ -37,7 +40,8 @@ namespace ClickToCall.Web.Tests.Controllers
         protected Mock<ITwilioRequestValidatorService> GetTwilioRequestValidatorMock(bool withSuccessTwilioRequestAlways)
         {
             var mock = MockRepository.Create<ITwilioRequestValidatorService>();
-            mock.Setup(service => service.ValidateCurrentRequest(It.IsAny<HttpContext>(), It.IsAny<string>())).Returns(withSuccessTwilioRequestAlways);
+            mock.Setup(service => service.ValidateCurrentRequest(It.IsAny<HttpContext>(), It.IsAny<string>()))
+                .Returns(withSuccessTwilioRequestAlways);
             return mock;
         }
 
