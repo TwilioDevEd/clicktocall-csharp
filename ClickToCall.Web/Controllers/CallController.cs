@@ -1,28 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
+﻿using System.Configuration;
 using System.Web.Mvc;
-using Antlr.Runtime.Tree;
 using ClickToCall.Web.Domain.Services;
 using Twilio.TwiML;
 using Twilio.TwiML.Mvc;
 
 namespace ClickToCall.Web.Controllers
 {
-    public class CallController : Twilio.TwiML.Mvc.TwilioController
+    public class CallController : TwilioController
     {
         private readonly ITwilioRequestValidatorService _twilioRequestValidatorService;
-        /// <summary>
-        /// This parameterless with high coupling is done in order to keep the tutorial simple, 
-        /// and not using a Dependency Injection which is the right approach
-        /// </summary>
-        public CallController()
-        {
-            _twilioRequestValidatorService = new TwilioRequestValidatorService();
-        }
 
+        public CallController():this(new TwilioRequestValidatorService())
+        {
+            // This parameterless constructor with high coupling is done in order to keep the tutorial simple, 
+            // and not using a DI COntainer wich is a better approach
+        }
 
         public CallController(ITwilioRequestValidatorService twilioRequestValidatorService)
         {
@@ -37,10 +29,11 @@ namespace ClickToCall.Web.Controllers
                 return new HttpUnauthorizedResult();
 
             var response = new TwilioResponse();
-            response.Say("If this were a real click to call implementation, you would be connected to an agent at this point.");
+            response.Say("If this were a real click to call implementation, " +
+                         "you would be connected to an agent at this point.");
             response.Hangup();
 
-            return new TwiMLResult(response);
+            return TwiML(response);
         }
     }
 }

@@ -198,8 +198,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\CallController.cs" />
-    <Compile Include="Domain\Services\ITwilioRequestValidatorService.cs" />
-    <Compile Include="Domain\Services\ITwilioService.cs" />
     <Compile Include="Controllers\CallCenterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
