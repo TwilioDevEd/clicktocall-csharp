@@ -140,7 +140,7 @@
       * (Optional) Check that all incoming requests are from Twilio
 
       Let's take a look at this part of application in more detail.
-  .step(data-title="Getting contact information", data-file='ClickToCall.Web/Controllers/CallCenterController.cs', data-highlight="48-62")
+  .step(data-title="Getting contact information", data-file='ClickToCall.Web/Controllers/CallCenterController.cs', data-highlight="37-53")
     :markdown
       ## Call Center Controller: Getting a valid contact phone and placing a call to it.
 
@@ -171,7 +171,7 @@
       maintain and also aligns with [Service Layer Pattern](http://martinfowler.com/eaaCatalog/serviceLayer.html) approach. For further reading on using
       interfaces to sketching up domain services, check [this](https://visualstudiomagazine.com/articles/2010/01/01/interface-based-programming.aspx).
 
-  .step(data-title='Making a Phone Call', data-file='ClickToCall.Web/Domain/Services/TwilioService.cs', data-highlight="11-14, 17")
+  .step(data-title='Making a Phone Call', data-file='ClickToCall.Web/Domain/Services/TwilioService.cs', data-highlight="16-18, 22")
     :markdown
       ## Making a Phone Call with our Twilio Service
 
@@ -179,12 +179,12 @@
       [Twilio .NET Helper Library for .NET, ASP.NET, ASP.NET MVC](https://github.com/twilio/twilio-csharp), as our Twilio Rest API handler, which we could
       use to send SMS, generate TwiML or a myriad of other things. But for now we just need to create a phone call.
 
-      Next we'll use the REST API to [make an outgoing phone call](/docs/api/rest/making-calls) which requires we pass it a From number(origin),
-      a To number(destination) and the[URL Parameter](/docs/api/rest/making-calls#url-parameter) that tells Twilio what to do after it connects the
+      Next we'll use the REST API to [make an outgoing phone call](/docs/api/rest/making-calls) which requires we pass it a *From number*(`origin`),
+      a *To number*(`destination`) and the [*URL Parameter*](/docs/api/rest/making-calls#url-parameter) (`handleUri`) that tells Twilio what to do after it connects the
       call to our user.
 
 
-  .step(data-title='When the call connects', data-file='ClickToCall.Web/Controllers/CallController.cs', data-highlight="32-44")
+  .step(data-title='When the call connects', data-file='ClickToCall.Web/Controllers/CallController.cs', data-highlight="27-36")
     :markdown
       ## Call Controller: Telling Twilio what to do when the call connects
 
@@ -193,25 +193,26 @@
 
       Note that the first thing we have to do is to validate the incoming request comes from Twilio, so that way we are sure there is really Twilio who is
       contacting us and not a third party acting as Twilio. For this we'll use a Twilio Validation Service implemented by us using the Twilio .NET Helper Library's
-      `RequestValidator`class, although we could use also a provided data annotation for this purpose, but as this application is for learning intended we'll a
-      custom implemented service to show how it works. Anyway we'll go deeper on this shortly.
+      `RequestValidator`class, although we could use also a provided data annotation attribute in order to achieve it, but as this application is intended for learning
+      purposes, we'll make a custom implemented service to show how it works. Anyway we'll go deeper on this shortly.
 
-      Once you're sure the request comes from Twilio we have to tell what to do, and this could accomplished by using Twilio verbs.
+      Once you're sure the request comes from Twilio we have to tell him what to do, and this could be accomplished by using Twilio verbs.
+
       TwiML is a set of [simple verbs](/docs/api/twiml#verbs), written in XML, that Twilio reads as instructions. In this case our instructions inform
-      Twilio to simply SAY something to the user and then HANGUP. In a real world case, we would have to say Twilio that needs to DIAL in the Agent
+      Twilio to simply SAY something to the user and then HANGUP. In a real world case, we would tell Twilio he that needs to DIAL in the Sales Agent
       once the call has been placed.
 
       In order to make writing TwiML as easy as possible, many of the helper libraries
       have methods that generate TwiML for you. In this case, we want to use Twilio .NET Helper Library's to create a TwiML response that will say something and
-      then hangup in the agent so we create `TwilioResponse` type and we use the methods `Say` and Hangup` to express Twilio verbs.
+      then hangup in the agent so we create `TwilioResponse` instance and we use the methods `Say` and `Hangup` to express Twilio verbs.
 
   .step(data-title='Validating Twilio request', data-file='ClickToCall.Web/Domain/Services/TwilioRequestValidatorService.cs')
     :markdown
       ## Validating Twilio request with our Twilio Validator Service
 
       This service unique purpose is to return a boolean indicating if the current incoming request comes from Twilio. It's very simple, it receives
-      the request `HttpContext` object and an authentication token, and passes to a `IsValidRequest` method invocation of a `RequestValidator`. This one is
-      provided by Twilio .NET Helper Library'.
+      the request `HttpContext` object, an authentication token and passes to a `IsValidRequest` method invocation of a `RequestValidator` instance. The class instanced
+      is bundled inside Twilio .NET Helper Library.
 
       That's all.
 
