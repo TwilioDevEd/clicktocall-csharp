@@ -16,15 +16,15 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 2. Create a new file ClickToCall.Web/Local.config and update the content with:
 
    ```
-   <appSettings file="Local.config">
+   <appSettings>
         <add key="TwilioAccountSID" value="your_account_SID" />
 	    <add key="TwilioAuthToken" value="your_twilio_auth_token" />
 	    <add key="TwilioNumber" value="your_twilio_number" />
-	    <add key="TestDomain" value="<your-ngrok-subdomain>.ngrok.io"/>
+	    <add key="TestDomain" value="[your-ngrok-subdomain].ngrok.io"/>
    </appSettings>
    ```
   
-    Scare about ```<your-ngrok-subdomain>```?. Don't!, see [Using ngrok](#ngrok) section
+    Scare about ```[your-ngrok-subdomain]```?. Don't!, see [Using ngrok](#ngrok) section
 
 3. Build the solution.
 
