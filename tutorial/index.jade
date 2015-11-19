@@ -52,7 +52,7 @@
 
       * [The Twilio C# Helper Library](//www.twilio.com/docs/csharp/install)
 
-  .step(data-title='Environment', data-file='ClickToCall.Web/Web.config', data-highlight="19-22" data-mode="xml")
+  .step(data-title='Environment', data-file='ClickToCall.Web/Web.config', data-highlight="19-22", data-mode="xml")
     :markdown
       ## Configuring our Application
 
@@ -73,7 +73,7 @@
 
       Now let's look at how we build our click-to-call app.
 
-  .step(data-file='ClickToCall.Web/Views/CallCenter/Index.cshtml')
+  .step(data-file='ClickToCall.Web/Views/CallCenter/Index.cshtml', data-mode="html")
     :markdown
       ## The Web Form
 
@@ -97,7 +97,7 @@
       On line 14, we prevent the browser from following its default submit behavior.  On line 17, we use jQuery's AJAX function to send an HTTP POST request to `/call` on our server, containing the phone number the user entered as a form-encoded POST parameter. When the request completes, we simply display an alert containing the message we get back, as JSON, from the server.
 
       That's pretty much it for the front-end - let's take a look at the C# code that contains the logic behind the `/call` route.
-  .step(data-file='ClickToCall.Web/Controllers/CallCenterController.cs', data-highligh="34-54")
+  .step(data-file='ClickToCall.Web/Controllers/CallCenterController.cs', data-highlight="34-54")
     :markdown
       ## Outbound Call Route
 
