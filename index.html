@@ -53,7 +53,7 @@ open a window of your default web browser with the Click-to-Call Application up 
     &lt;add key=&quot;TwilioNumber&quot; value=&quot;your_twilio_number&quot; /&gt;
     &lt;add key=&quot;TestDomain&quot; value=&quot;&lt;your-ngrok-subdomain&gt;.ngrok.io&quot;/&gt;
   &lt;/appSettings&gt;
-</code></pre><p>You can find your Twilio credentials in your <a href="/user/account">Account Dashboard</a>. </p>
+</code></pre><p>You can find your Twilio credentials in your <a href="/user/account">Account Dashboard</a>.</p>
 <p>Feel free to replace the <code>TestDomain</code> value with a public url of your test environment but <a href="https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html">we recommend using ngrok to solve this problem</a>. You can get more info about <strong>ngrok</strong> and how to get your ngrok&#39;s subdomain once you&#39;re using it
 <a href="//www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html">here</a></p>
 <p>Now let&#39;s look at how we build our click-to-call app.</p>
@@ -61,7 +61,7 @@ open a window of your default web browser with the Click-to-Call Application up 
 <p>Here we can see that we set up a form to accept the user&#39;s phone number.  The form doesn&#39;t have an <code>action</code> or <code>method</code> defined in markup, since we plan on submitting the form via JavaScript.</p>
 <p>Let&#39;s look at the JavaScript we use to submit the form.</p>
 </div><div data-file="ClickToCall.Web/Scripts/app.js" data-highlight="3-7" class="step"><h2 id="creating-a-better-phone-input">Creating a Better Phone Input</h2>
-<p>Immediately on the document ready event, we use <a href="https://github.com/Bluefieldscom/intl-tel-input">a jQuery plugin</a> to create an input field that will validate phone numbers and help insert proper country codes for the phone number our user enters.</p>
+<p>Immediately on the document ready event, we use a <a href="https://github.com/Bluefieldscom/intl-tel-input">jQuery plugin</a> to create an input field that will validate phone numbers and help insert proper country codes for the phone number our user enters.</p>
 <p>This step is not strictly necessary, but validating a user&#39;s phone number input on the client side is generally a good idea.</p>
 </div><div data-file="ClickToCall.Web/Scripts/app.js" data-highlight="11-33" class="step"><h2 id="submit-the-form-with-ajax">Submit the form with Ajax</h2>
 <p>Here, we are capturing the form&#39;s <code>submit</code> event, and sending an AJAX POST request to our MVC application.</p>
