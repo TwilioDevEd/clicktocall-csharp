@@ -4,6 +4,8 @@
 
 Click-to-call enables your company to convert web traffic into phone calls with the click of a button. Learn how to implement it in minutes.
 
+[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/click-to-call/csharp/mvc)!
+
 ### Local development
 
 1. First clone this repository and `cd` into its directory:
