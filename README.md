@@ -25,6 +25,8 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 	    <add key="TestDomain" value="[your-ngrok-subdomain].ngrok.io"/>
    </appSettings>
    ```
+    Be sure to replace placeholders like `your_account_SID`, `your_twilio_auth_token` and `your_twilio_number` with real information from your
+   [Twilio Account Settings](https://www.twilio.com/user/account/settings).
   
     Scare about ```[your-ngrok-subdomain]```?. Don't!, see [Using ngrok](#ngrok) section
 
