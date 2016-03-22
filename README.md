@@ -8,14 +8,15 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 
 ### Local development
 
-1. First clone this repository and `cd` into its directory:
+1. First clone this repository and `cd` into it.
+
    ```
    git clone git@github.com:TwilioDevEd/clicktocall-csharp.git
 
    cd clicktocall-csharp
    ```
 
-2. Create a new file ClickToCall.Web/Local.config and update the content with:
+2. Create a new file ClickToCall.Web/Local.config and update the content.
 
    ```
    <appSettings>
@@ -27,8 +28,8 @@ Click-to-call enables your company to convert web traffic into phone calls with 
    ```
     Be sure to replace placeholders like `your_account_SID`, `your_twilio_auth_token` and `your_twilio_number` with real information from your
    [Twilio Account Settings](https://www.twilio.com/user/account/settings).
-  
-    Scare about ```[your-ngrok-subdomain]```?. Don't!, see [Using ngrok](#ngrok) section
+
+    Scared about ```[your-ngrok-subdomain]```?. Don't be!, go to [Using ngrok](#ngrok) section
 
 3. Build the solution.
 
