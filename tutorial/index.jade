@@ -7,28 +7,33 @@
 
       ![Click-to-call Diagram](//s3-us-west-2.amazonaws.com/deved/clicktocall.png)
 
-      1. A website visitor wants to connect to your organization. The customer submits a web form with her phone number to receive a call connecting
-      her to your sales or support team.
+      1. A website visitor wants to connect to your organization.  She submits a web form with her
+      phone number to receive a call connecting her to your sales or support team.
 
-      1. Your web application receives the form submission. An HTTP request is initiated from your application to Twilio to initiate an outbound call.
+      1. Your web application receives the submission form.  An HTTP request is initiated from your
+      application to Twilio to initiate an outbound call.
 
-      1. Twilio receives the request and initiates a call to the customer's phone number.
+      1. Twilio receives the request and initiates a call to the user's phone number.
 
-      1. Customer receives the call.
+      1. User receives the call.
 
-      1. After the call connects, Twilio asks our application for [TwiML instructions](/docs/api/twiml). Our TwiML instructs Twilio to connect the customer
+      1. After the call connects, Twilio asks our application for [TwiML
+      instructions](//www.twilio.com/docs/api/twiml). Our TwiML instructs Twilio to connect the user
       to our sales or support teams.
-
       ## What We Will Learn
 
-      This How-To demonstrates initializing a call using the [Twilio REST API][rest] and creating TwiML call logic using the [Say][say] and [Dial][dial] verbs.
+      This How-To demonstrates how to initialize a call using the [Twilio REST
+      API](//www.twilio.com/docs/api/rest) and how to create a TwiML call logic using the
+      [Say](//www.twilio.com/docs/api/twiml/say) verb.
 
-      Sound like a plan? Let's get started!
+      Sounds like a plan? Let's get started!
 
-      [rest]: /docs/api/rest/
-      [dial]: /docs/api/twiml/dial
-      [say]: /docs/api/twiml/say
+      ---
 
+      **See Also:**
+      * [Twilio REST API](//www.twilio.com/docs/api/rest)
+      * [TwiML Say Verb](//www.twilio.com/docs/api/twiml/say)
+      
   .step(data-title="Application Overview", data-file='ClickToCall.Web/Controllers/CallCenterController.cs')
     :markdown
       ## Our ASP.NET MVC Application
@@ -157,5 +162,6 @@
 
       ### Did this help?
 
-      Thanks for checking out this tutorial! If you have any feedback to share with us, we'd love to hear it.
-      Tweet [@twilio](http://twitter.com/twilio) to let us know what you think.
+      Thanks for checking out this tutorial! If you have any feedback
+      to share with us, we'd love to hear it.
+      [Contact support](//www.twilio.com/help/contact) to let us know what you think.
