@@ -1,5 +1,5 @@
 .chapter(data-title='Click-to-Call')
-  .step(data-title='How it Works')
+  .step(data-title='How it Works', data-file='ClickToCall.Web/Controllers/CallController.cs')
     :markdown
       ## How It Works
 
@@ -34,32 +34,9 @@
       * [Twilio REST API](//www.twilio.com/docs/api/rest)
       * [TwiML Say Verb](//www.twilio.com/docs/api/twiml/say)
       
-  .step(data-title="Application Overview", data-file='ClickToCall.Web/Controllers/CallCenterController.cs')
-    :markdown
-      ## Our ASP.NET MVC Application
-
-      In this example, we're using the [ASP.NET MVC](http://www.asp.net/mvc/overview/getting-started) above [Microsoft.Net Framework](https://www.microsoft.com/net).
-      ASP.NET MVC is a popular, robust web framework that provides HTTP request routing, server-side HTML rendering, model creation/validation and a
-      configurable middleware stack to process incoming requests.
-
-      To run this application locally, you can download it from [GitHub](https://github.com/TwilioDevEd/clicktocall-csharp) or cloning it in your desktop
-      with git like this:
-      ```
-      git clone git@github.com:TwilioDevEd/clicktocall-csharp.git
-      ```
-      After extracting the app to a local directory, you can open `ClickToCall.Web.sln` file from Visual Studio 2015 and hit `Ctrl + F5`,
-      that will build the solution, not before install all the [Nuget Packages](https://www.nuget.org/) dependencies(including the Twilio ones) and finally it will
-      open a window of your default web browser with the Click-to-Call Application up and running.
-
-      Now we need to configure our application with our Twilio account information.
-
-      **See Also:**
-
-      * [The Twilio C# Helper Library](//www.twilio.com/docs/csharp/install)
-
   .step(data-title='Environment', data-file='ClickToCall.Web/Web.config', data-highlight="19-22", data-mode="xml")
     :markdown
-      ## Configuring our Application
+      ## Environment
 
       To get started you should create a Local.config file under the `ClickToCall.Web/` directory with the following content:
       ```
@@ -73,8 +50,7 @@
       ```
       You can find your Twilio credentials in your [Account Dashboard](/user/account).
 
-      Feel free to replace the `TestDomain` value with a public url of your test environment but [we recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html). You can get more info about **ngrok** and how to get your ngrok's subdomain once you're using it
-      [here](//www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html)
+      For more instructions on how to run the application refer to the [app's readme file]('//github.com/TwilioDevEd/clicktocall-csharp').
 
       Now let's look at how we build our click-to-call app.
 
@@ -85,23 +61,25 @@
       Here we can see that we set up a form to accept the user's phone number.  The form doesn't have an `action` or `method` defined in markup, since we plan on submitting the form via JavaScript.
 
       Let's look at the JavaScript we use to submit the form.
-  .step(data-file='ClickToCall.Web/Scripts/app.js', data-highlight="3-7")
-    :markdown
-      ## Creating a Better Phone Input
-
-      Immediately on the document ready event, we use a [jQuery plugin](https://github.com/Bluefieldscom/intl-tel-input) to create an input field that will validate phone numbers and help insert proper country codes for the phone number our user enters.
-
-      This step is not strictly necessary, but validating a user's phone number input on the client side is generally a good idea.
-
   .step(data-file='ClickToCall.Web/Scripts/app.js', data-highlight="11-33")
     :markdown
-      ## Submit the form with Ajax
+      ## Submit the Form
 
-      Here, we are capturing the form's `submit` event, and sending an AJAX POST request to our MVC application.
+      To make the click to call feature more seamless we used
+      [Ajax](https://developer.mozilla.org/en-US/docs/AJAX) to send the form asynchronously. This
+      code shows one way you could implement this functionality using [jQuery](http://jquery.org).
 
-      On line 14, we prevent the browser from following its default submit behavior.  On line 17, we use jQuery's AJAX function to send an HTTP POST request to `/call` on our server, containing the phone number the user entered as a form-encoded POST parameter. When the request completes, we simply display an alert containing the message we get back, as JSON, from the server.
+      This code does the following:
 
-      That's pretty much it for the front-end - let's take a look at the C# code that contains the logic behind the `/call` route.
+      * Watches for the user "submitting" the form element
+      * Submits the form data to our controller
+      * Lets the user know if the submission was successful or not 
+
+      This is a common implementation of jQuery's `$.ajax()` method. Notice that we are 
+      returning the response message when the call has connected.
+
+      Now that we have the front end done lets build the back end that will receive this data and 
+      call the user.  
   .step(data-file='ClickToCall.Web/Controllers/CallCenterController.cs', data-highlight="34-54")
     :markdown
       ## Outbound Call Route
