@@ -55,19 +55,19 @@ API</a> and how to create a TwiML call logic using the
 <p>Here we can see that we set up a form to accept the user&#39;s phone number.  The form doesn&#39;t have an <code>action</code> or <code>method</code> defined in markup, since we plan on submitting the form via JavaScript.</p>
 <p>Let&#39;s look at the JavaScript we use to submit the form.</p>
 </div><div data-file="ClickToCall.Web/Scripts/app.js" data-highlight="11-33" class="step"><h2 id="submit-the-form">Submit the Form</h2>
-<p>To make the click to call feature more seamless we used
+<p>To make the user&#39;s experience click to call feature more pleasant, we used
 <a href="https://developer.mozilla.org/en-US/docs/AJAX">Ajax</a> to send the form asynchronously. This
 code shows one way you could implement this functionality using <a href="http://jquery.org">jQuery</a>.</p>
 <p>This code does the following:</p>
 <ul>
 <li>Watches for the user &quot;submitting&quot; the form element</li>
-<li>Submits the form data to our controller</li>
-<li>Lets the user know if the submission was successful or not </li>
+<li>Submits the form&#39;s data to our controller</li>
+<li>Lets the user know if the submission was successful or not</li>
 </ul>
-<p>This is a common implementation of jQuery&#39;s <code>$.ajax()</code> method. Notice that we are 
+<p>This is a common implementation of jQuery&#39;s <code>$.ajax()</code> method. Notice that we are
 returning the response message when the call has connected.</p>
-<p>Now that we have the front end done lets build the back end that will receive this data and 
-call the user.  </p>
+<p>Now that we have the front end done lets build the back end that will receive this data and
+call the user.</p>
 </div><div data-file="ClickToCall.Web/Controllers/CallCenterController.cs" data-highlight="34-54" class="step"><h2 id="outbound-call-route">Outbound Call Route</h2>
 <p>Back on the server, we define a route that handles HTTP POST requests to
 the <code>/call</code> URL. This is the code that we&#39;re calling via our AJAX

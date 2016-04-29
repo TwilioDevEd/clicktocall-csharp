@@ -33,7 +33,7 @@
       **See Also:**
       * [Twilio REST API](//www.twilio.com/docs/api/rest)
       * [TwiML Say Verb](//www.twilio.com/docs/api/twiml/say)
-      
+
   .step(data-title='Environment', data-file='ClickToCall.Web/Web.config', data-highlight="19-22", data-mode="xml")
     :markdown
       ## Environment
@@ -65,21 +65,21 @@
     :markdown
       ## Submit the Form
 
-      To make the click to call feature more seamless we used
+      To make the user's experience click to call feature more pleasant, we used
       [Ajax](https://developer.mozilla.org/en-US/docs/AJAX) to send the form asynchronously. This
       code shows one way you could implement this functionality using [jQuery](http://jquery.org).
 
       This code does the following:
 
       * Watches for the user "submitting" the form element
-      * Submits the form data to our controller
-      * Lets the user know if the submission was successful or not 
+      * Submits the form's data to our controller
+      * Lets the user know if the submission was successful or not
 
-      This is a common implementation of jQuery's `$.ajax()` method. Notice that we are 
+      This is a common implementation of jQuery's `$.ajax()` method. Notice that we are
       returning the response message when the call has connected.
 
-      Now that we have the front end done lets build the back end that will receive this data and 
-      call the user.  
+      Now that we have the front end done lets build the back end that will receive this data and
+      call the user.
   .step(data-file='ClickToCall.Web/Controllers/CallCenterController.cs', data-highlight="34-54")
     :markdown
       ## Outbound Call Route
