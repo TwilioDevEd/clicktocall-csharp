@@ -204,8 +204,9 @@
     </Compile>
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Domain\Services\TwilioRequestValidatorService.cs" />
-    <Compile Include="Domain\Services\TwilioService.cs" />
+    <Compile Include="Services\Exceptions\NotificationException.cs" />
+    <Compile Include="Services\RequestValidationService.cs" />
+    <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

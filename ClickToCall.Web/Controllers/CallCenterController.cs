@@ -1,8 +1,7 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
-using ClickToCall.Web.Domain.Services;
+using ClickToCall.Web.Services;
 using ClickToCall.Web.Models;
 using Twilio.TwiML.Mvc;
 
@@ -10,15 +9,13 @@ namespace ClickToCall.Web.Controllers
 {
     public class CallCenterController : TwilioController
     {
-        private readonly ITwilioService _twilioService;
+        private readonly INotificationService _twilioService;
 
-        public CallCenterController(): this(new TwilioService())
+        public CallCenterController() : this(new NotificationService())
         {
-            // This parameterless constructor with high coupling is done in order to keep the tutorial simple, 
-            // and not using a DI COntainer wich is a better approach
         }
 
-        public CallCenterController(ITwilioService twilioService)
+        public CallCenterController(INotificationService twilioService)
         {
             _twilioService = twilioService;
         }
@@ -36,27 +33,30 @@ namespace ClickToCall.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json(new { success = false, message = (ModelState.Values.First()).Errors.First().ErrorMessage, });
+                var errorMessage = ModelState.Values.First().Errors.First().ErrorMessage;
+                return Json(new { success = false, message = errorMessage });
             }
 
             var twilioNumber = ConfigurationManager.AppSettings["TwilioNumber"];
+            var handlerUri = GetUri();
+            _twilioService.MakePhoneCall(twilioNumber, contact.Phone.Replace(" ", ""), handlerUri);
 
-            // The following line is how you should get the absolute Uri in an internet faced 
-            // server or a production environment
-            // var handlerUri = Url.Action("Connect", "Call", null, Request.Url.Scheme);
-
-            // this line allow us to get the absolute Uri in a local computer using a secure instrospectable 
-            // service like ngrok ;)
-            var handlerUri = GetTestUri();
-
-            _twilioService.CallToNumber(twilioNumber, contact.Phone.Replace(" ", ""), handlerUri);
             return Json(new { success = true, message = "Phone call incoming!"});
         }
 
-        private string GetTestUri()
+        private string GetUri(bool isProduction = false)
         {
-            return String.Format("{0}://{1}{2}", 
-                Request.Url.Scheme, ConfigurationManager.AppSettings["TestDomain"], Url.Action("Connect", "Call"));
+            // "isProduction" means that it is not exposed to the wider internet through ngrok.
+            if (isProduction)
+            {
+                return Url.Action("Connect", "Call", null, Request.Url.Scheme);
+            }
+
+            var requestUrlScheme = Request.Url.Scheme;
+            var domain = ConfigurationManager.AppSettings["TestDomain"];
+            var urlAction = Url.Action("Connect", "Call");
+
+            return $"{requestUrlScheme}://{domain}{urlAction}";
         }
     }
 }
