@@ -28,5 +28,4 @@ namespace ClickToCall.Web.Tests.Mocks
             new RequestContext(_controllerContext.Object.HttpContext, new RouteData()),
             new RouteCollection());
     }
-
 }

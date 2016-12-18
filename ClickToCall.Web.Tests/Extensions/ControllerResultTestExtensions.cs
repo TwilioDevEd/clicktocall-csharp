@@ -22,7 +22,7 @@ namespace ClickToCall.Web.Tests.Extensions
             controllerResultTest.ValidateActionReturnType<TwiMLResult>();
 
             var twiMLResult = (TwiMLResult)controllerResultTest.ActionResult;
-            var xdocument = twiMLResult.Data() as XDocument;
+            var xdocument = twiMLResult.Data;
             assertion(xdocument);
 
             return (TwiMLResult)controllerResultTest.ActionResult;
