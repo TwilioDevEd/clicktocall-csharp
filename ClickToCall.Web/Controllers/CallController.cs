@@ -20,7 +20,7 @@ namespace ClickToCall.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Connect()
+        public ActionResult Connect(string salesNumber)
         {
             var twilioAuthToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
             if (!_requestValidationService.IsValidRequest(System.Web.HttpContext.Current, twilioAuthToken))
@@ -29,9 +29,11 @@ namespace ClickToCall.Web.Controllers
             }
 
             var response = new TwilioResponse();
-            response.Say("If this were a real click to call implementation, " +
-                         "you would be connected to an agent at this point.");
-            response.Hangup();
+            response
+                .Say("Thanks for contacting our sales department. Our " +
+                     "next available representative will take your call.")
+                .Dial(salesNumber)
+                .Hangup();
 
             return TwiML(response);
         }
