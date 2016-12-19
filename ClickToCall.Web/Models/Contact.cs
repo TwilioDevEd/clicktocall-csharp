@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using RestSharp.Validation;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ClickToCall.Web.Models
 {
     public class Contact
     {
-        [Required]
-        [Phone]
+        [Required, Phone]
         public string Phone { get; set; }
     }
 }
