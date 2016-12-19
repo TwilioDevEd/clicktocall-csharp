@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using ClickToCall.Web.Services;
-using ClickToCall.Web.Models;
 using Twilio.TwiML.Mvc;
 
 namespace ClickToCall.Web.Controllers

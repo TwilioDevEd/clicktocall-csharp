@@ -1,6 +1,5 @@
 ﻿using ClickToCall.Web.Controllers;
 using ClickToCall.Web.Services;
-using ClickToCall.Web.Models;
 using ClickToCall.Web.Tests.Mocks;
 using Moq;
 using NUnit.Framework;
