@@ -1,6 +1,5 @@
 ﻿using ClickToCall.Web.Controllers;
 using ClickToCall.Web.Services;
-using ClickToCall.Web.Models;
 using ClickToCall.Web.Tests.Mocks;
 using Moq;
 using NUnit.Framework;
@@ -23,14 +22,14 @@ namespace ClickToCall.Web.Tests.Controllers
                 };
 
             controller
-                .WithCallTo(c => c.Call(new Contact { Phone = "1234567890" }))
+                .WithCallTo(c => c.Call("user-number", "sales-number"))
                 .ShouldReturnJson(data =>
                     {
                         Assert.That(data.message, Is.EqualTo("Phone call incoming!"));
                     });
 
             mockNotificationService.Verify(
-                s => s.MakePhoneCall("twilio-number", "1234567890", "http://test.domain.com"), Times.Once());
+                s => s.MakePhoneCall("twilio-number", "user-number", "http://test.domain.com"), Times.Once());
         }
     }
 }

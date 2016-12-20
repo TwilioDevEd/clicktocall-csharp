@@ -30,7 +30,7 @@ namespace ClickToCall.Web.Tests.Controllers
 
             var controller = new CallController(_mockValidatorService.Object);
             controller
-                .WithCallTo(c => c.Connect())
+                .WithCallTo(c => c.Connect("sales-number"))
                 .ShouldGiveHttpStatus(HttpStatusCode.Unauthorized);
         }
 
@@ -43,11 +43,12 @@ namespace ClickToCall.Web.Tests.Controllers
 
             var controller = new CallController(_mockValidatorService.Object);
             controller
-                .WithCallTo(c => c.Connect())
+                .WithCallTo(c => c.Connect("sales-number"))
                 .ShouldReturnTwiMLResult(data =>
                 {
                     StringAssert.Contains(
-                        "call implementation", data.XPathSelectElement("Response/Say").Value);
+                        "Thanks for contacting", data.XPathSelectElement("Response/Say").Value);
+                    Assert.That(data.XPathSelectElement("Response/Dial").Value, Is.EqualTo("sales-number"));
                 });
         }
     }

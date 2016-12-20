@@ -2,22 +2,21 @@
 using System.Linq;
 using System.Web.Mvc;
 using ClickToCall.Web.Services;
-using ClickToCall.Web.Models;
 using Twilio.TwiML.Mvc;
 
 namespace ClickToCall.Web.Controllers
 {
     public class CallCenterController : TwilioController
     {
-        private readonly INotificationService _twilioService;
+        private readonly INotificationService _notificationService;
 
         public CallCenterController() : this(new NotificationService())
         {
         }
 
-        public CallCenterController(INotificationService twilioService)
+        public CallCenterController(INotificationService notificationService)
         {
-            _twilioService = twilioService;
+            _notificationService = notificationService;
         }
 
         public ActionResult Index()
@@ -29,7 +28,7 @@ namespace ClickToCall.Web.Controllers
         /// Handle a POST from our web form and connect a call via REST API
         /// </summary>
         [HttpPost]
-        public ActionResult Call(Contact contact)
+        public ActionResult Call(string userNumber, string salesNumber)
         {
             if (!ModelState.IsValid)
             {
@@ -38,25 +37,32 @@ namespace ClickToCall.Web.Controllers
             }
 
             var twilioNumber = ConfigurationManager.AppSettings["TwilioNumber"];
-            var handlerUri = GetUri();
-            _twilioService.MakePhoneCall(twilioNumber, contact.Phone.Replace(" ", ""), handlerUri);
+            var uriHandler = GetUri(salesNumber);
+            _notificationService.MakePhoneCall(twilioNumber, userNumber, uriHandler);
 
             return Json(new { success = true, message = "Phone call incoming!"});
         }
 
-        private string GetUri(bool isProduction = false)
+        private string GetUri(string salesNumber)
         {
-            // "isProduction" means that it is not exposed to the wider internet through ngrok.
-            if (isProduction)
+            if (IsProductionHost(Request.Url.Host))
             {
                 return Url.Action("Connect", "Call", null, Request.Url.Scheme);
             }
 
             var requestUrlScheme = Request.Url.Scheme;
             var domain = ConfigurationManager.AppSettings["TestDomain"];
-            var urlAction = Url.Action("Connect", "Call");
+            var urlAction = Url.Action("Connect", "Call", new { salesNumber });
 
             return $"{requestUrlScheme}://{domain}{urlAction}";
+        }
+
+        private static bool IsProductionHost(string host)
+        {
+            var isNgrok = host.Contains("ngrok.io");
+            var isExample = host.Equals("www.example.com");
+
+            return !(isNgrok || isExample);
         }
     }
 }
