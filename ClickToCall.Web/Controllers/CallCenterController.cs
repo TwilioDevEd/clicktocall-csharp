@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
+using ClickToCall.Web.Models;
 using ClickToCall.Web.Services;
 using Twilio.TwiML.Mvc;
 
@@ -28,17 +29,20 @@ namespace ClickToCall.Web.Controllers
         /// Handle a POST from our web form and connect a call via REST API
         /// </summary>
         [HttpPost]
-        public ActionResult Call(string userNumber, string salesNumber)
+        public ActionResult Call(CallViewModel callViewModel)
         {
             if (!ModelState.IsValid)
             {
-                var errorMessage = ModelState.Values.First().Errors.First().ErrorMessage;
+                var errors = ModelState.Values.SelectMany(m => m.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                var errorMessage = string.Join(". ", errors);
                 return Json(new { success = false, message = errorMessage });
             }
 
             var twilioNumber = ConfigurationManager.AppSettings["TwilioNumber"];
-            var uriHandler = GetUri(salesNumber);
-            _notificationService.MakePhoneCall(twilioNumber, userNumber, uriHandler);
+            var uriHandler = GetUri(callViewModel.SalesNumber);
+            _notificationService.MakePhoneCall(twilioNumber, callViewModel.UserNumber, uriHandler);
 
             return Json(new { success = true, message = "Phone call incoming!"});
         }
