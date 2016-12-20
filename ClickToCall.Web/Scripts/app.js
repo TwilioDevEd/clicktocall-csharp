@@ -14,14 +14,8 @@ $(function () {
         $submit.attr("disabled", "disabled");
 
         // Submit the form via AJAX
-        $.ajax({
-            url: "/CallCenter/Call",
-            method: "POST",
-            data: {
-                userNumber: $("#userNumber").val(),
-                salesNumber: $("#salesNumber").val()
-            }
-        }).done(function (data) {
+        $.post("/CallCenter/Call", $form.serialize(), null, "json")
+        .done(function (data) {
             alert(data.message);
             if (data.success) {
                 $form.reset();
