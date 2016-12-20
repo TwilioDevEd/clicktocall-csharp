@@ -8,15 +8,15 @@ namespace ClickToCall.Web.Controllers
 {
     public class CallCenterController : TwilioController
     {
-        private readonly INotificationService _twilioService;
+        private readonly INotificationService _notificationService;
 
         public CallCenterController() : this(new NotificationService())
         {
         }
 
-        public CallCenterController(INotificationService twilioService)
+        public CallCenterController(INotificationService notificationService)
         {
-            _twilioService = twilioService;
+            _notificationService = notificationService;
         }
 
         public ActionResult Index()
@@ -37,16 +37,15 @@ namespace ClickToCall.Web.Controllers
             }
 
             var twilioNumber = ConfigurationManager.AppSettings["TwilioNumber"];
-            var handlerUri = GetUri(salesNumber);
-            _twilioService.MakePhoneCall(twilioNumber, userNumber.Replace(" ", ""), handlerUri);
+            var uriHandler = GetUri(salesNumber);
+            _notificationService.MakePhoneCall(twilioNumber, userNumber, uriHandler);
 
             return Json(new { success = true, message = "Phone call incoming!"});
         }
 
-        private string GetUri(string salesNumber, bool isProduction = false)
+        private string GetUri(string salesNumber)
         {
-            // "isProduction" means that it is not exposed to the wider internet through ngrok.
-            if (isProduction)
+            if (IsProductionHost(Request.Url.Host))
             {
                 return Url.Action("Connect", "Call", null, Request.Url.Scheme);
             }
@@ -56,6 +55,14 @@ namespace ClickToCall.Web.Controllers
             var urlAction = Url.Action("Connect", "Call", new { salesNumber });
 
             return $"{requestUrlScheme}://{domain}{urlAction}";
+        }
+
+        private static bool IsProductionHost(string host)
+        {
+            var isNgrok = host.Contains("ngrok.io");
+            var isExample = host.Equals("www.example.com");
+
+            return !(isNgrok || isExample);
         }
     }
 }
