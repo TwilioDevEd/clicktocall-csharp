@@ -47,9 +47,9 @@ namespace ClickToCall.Web.Controllers
             return Json(new { success = true, message = "Phone call incoming!"});
         }
 
-        private string GetUri(string salesNumber)
+        private string GetUri(string salesNumber, bool isProduction = false)
         {
-            if (IsProductionHost(Request.Url.Host))
+            if (isProduction)
             {
                 return Url.Action("Connect", "Call", null, Request.Url.Scheme);
             }
@@ -59,14 +59,6 @@ namespace ClickToCall.Web.Controllers
             var urlAction = Url.Action("Connect", "Call", new { salesNumber });
 
             return $"{requestUrlScheme}://{domain}{urlAction}";
-        }
-
-        private static bool IsProductionHost(string host)
-        {
-            var isNgrok = host.Contains("ngrok.io");
-            var isExample = host.Equals("www.example.com");
-
-            return !(isNgrok || isExample);
         }
     }
 }
