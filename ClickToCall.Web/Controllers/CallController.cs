@@ -2,11 +2,10 @@
 using System.Web.Mvc;
 using ClickToCall.Web.Services;
 using Twilio.TwiML;
-using Twilio.TwiML.Mvc;
 
 namespace ClickToCall.Web.Controllers
 {
-    public class CallController : TwilioController
+    public class CallController : Controller
     {
         private readonly IRequestValidationService _requestValidationService;
 
@@ -28,14 +27,14 @@ namespace ClickToCall.Web.Controllers
                 return new HttpUnauthorizedResult();
             }
 
-            var response = new TwilioResponse();
+            var response = new VoiceResponse();
             response
                 .Say("Thanks for contacting our sales department. Our " +
                      "next available representative will take your call.")
                 .Dial(salesNumber)
                 .Hangup();
 
-            return TwiML(response);
+            return Content(response.ToString(), "text/xml");
         }
     }
 }
