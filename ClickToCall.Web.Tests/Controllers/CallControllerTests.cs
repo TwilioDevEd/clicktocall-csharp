@@ -44,7 +44,7 @@ namespace ClickToCall.Web.Tests.Controllers
             var controller = new CallController(_mockValidatorService.Object);
             controller
                 .WithCallTo(c => c.Connect("sales-number"))
-                .ShouldReturnTwiMLResult(data =>
+                .ShouldReturnXmlResult(data =>
                 {
                     StringAssert.Contains(
                         "Thanks for contacting", data.XPathSelectElement("Response/Say").Value);

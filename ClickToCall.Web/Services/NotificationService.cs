@@ -1,6 +1,8 @@
-﻿using System.Configuration;
-using ClickToCall.Web.Services.Exceptions;
-using Twilio;
+﻿using System;
+using System.Configuration;
+using Twilio.Clients;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace ClickToCall.Web.Services
 {
@@ -22,11 +24,8 @@ namespace ClickToCall.Web.Services
 
         public void MakePhoneCall(string from, string to, string uriHandler)
         {
-            var call = _client.InitiateOutboundCall(from, to, uriHandler);
-            if (call.RestException != null)
-            {
-                throw new NotificationException(call.RestException.Message);
-            }
+            CallResource.Create(
+                new PhoneNumber(to), new PhoneNumber(from), url: new Uri(uriHandler), client: _client);
         }
     }
 

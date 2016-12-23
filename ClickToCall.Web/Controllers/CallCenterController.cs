@@ -3,11 +3,10 @@ using System.Linq;
 using System.Web.Mvc;
 using ClickToCall.Web.Models;
 using ClickToCall.Web.Services;
-using Twilio.TwiML.Mvc;
 
 namespace ClickToCall.Web.Controllers
 {
-    public class CallCenterController : TwilioController
+    public class CallCenterController : Controller
     {
         private readonly INotificationService _notificationService;
 
