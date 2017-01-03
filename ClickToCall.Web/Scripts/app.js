@@ -18,7 +18,7 @@ $(function () {
         .done(function (data) {
             alert(data.message);
             if (data.success) {
-                $form.reset();
+                $form[0].reset();
             }
         }).fail(function () {
             alert("There was a problem calling you - please try again later.");
