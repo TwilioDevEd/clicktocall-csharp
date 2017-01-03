@@ -31,7 +31,7 @@ namespace ClickToCall.Web.Tests.Controllers
                     });
 
             mockNotificationService.Verify(
-                s => s.MakePhoneCall("twilio-number", "user-number", "http://test.domain.com"), Times.Once());
+                s => s.MakePhoneCallAsync("user-number", "twilio-number", "http://test.domain.com"), Times.Once());
         }
     }
 }
