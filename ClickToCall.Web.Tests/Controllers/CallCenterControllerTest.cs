@@ -30,8 +30,9 @@ namespace ClickToCall.Web.Tests.Controllers
                         Assert.That(data.message, Is.EqualTo("Phone call incoming!"));
                     });
 
+            const string expectedUriHandler = "http://www.example.com/Call/Connect?salesNumber=sales-number";
             mockNotificationService.Verify(
-                s => s.MakePhoneCallAsync("user-number", "twilio-number", "http://sb.ngrok.io"), Times.Once());
+                s => s.MakePhoneCallAsync("user-number", "twilio-number", expectedUriHandler), Times.Once());
         }
     }
 }

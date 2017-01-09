@@ -15,19 +15,31 @@ namespace ClickToCall.Web.Tests.Mocks
         {
             var mockRequest = new Mock<HttpRequestBase>();
             mockRequest.SetupGet(r => r.Url).Returns(new Uri("http://www.example.com"));
-            mockRequest.Setup(r => r.Headers).Returns(new NameValueCollection {{"Origin", "http://sb.ngrok.io"}});
+            mockRequest.Setup(r => r.Headers).Returns(new NameValueCollection {{"Origin", "http://www.example.com"}});
 
             var mockResponse = Mock.Of<HttpResponseBase>();
 
             _controllerContext = new Mock<ControllerContext>();
             _controllerContext.Setup(x => x.HttpContext.Request).Returns(mockRequest.Object);
             _controllerContext.Setup(x => x.HttpContext.Response).Returns(mockResponse);
+            _controllerContext
+                .Setup(x => x.HttpContext.Response.ApplyAppPathModifier(It.IsAny<string>()))
+                .Returns((string s) => s);
         }
 
         public ControllerContext ControllerContext => _controllerContext.Object;
 
-        public UrlHelper Url => new UrlHelper(
-            new RequestContext(_controllerContext.Object.HttpContext, new RouteData()),
-            new RouteCollection());
+        public UrlHelper Url
+        {
+            get
+            {
+                var routes = new RouteCollection();
+                RouteConfig.RegisterRoutes(routes);
+
+                return new UrlHelper(
+                    new RequestContext(_controllerContext.Object.HttpContext, new RouteData()),
+                    routes);
+            }
+        }
     }
 }

@@ -53,10 +53,10 @@ namespace ClickToCall.Web.Controllers
         {
             if (IsProduction())
             {
-                return Url.Action("Connect", "Call", null, Request.Url.Scheme);
+                return Url.Action("Connect", "Call", new {salesNumber}, Request.Url.Scheme);
             }
 
-            var urlAction = Url.Action("Connect", "Call", new { salesNumber });
+            var urlAction = Url.Action("Connect", "Call", new {salesNumber});
 
             var origin = Request.Headers[OriginHeader];
             return $"{origin}{urlAction}";
