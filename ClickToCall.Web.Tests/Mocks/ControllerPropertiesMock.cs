@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -14,6 +15,7 @@ namespace ClickToCall.Web.Tests.Mocks
         {
             var mockRequest = new Mock<HttpRequestBase>();
             mockRequest.SetupGet(r => r.Url).Returns(new Uri("http://www.example.com"));
+            mockRequest.Setup(r => r.Headers).Returns(new NameValueCollection {{"Origin", "http://sb.ngrok.io"}});
 
             var mockResponse = Mock.Of<HttpResponseBase>();
 

@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -10,6 +11,7 @@ namespace ClickToCall.Web.Controllers
     public class CallCenterController : Controller
     {
         private readonly INotificationService _notificationService;
+        private const string OriginHeader = "Origin";
 
         public CallCenterController() : this(new NotificationService())
         {
@@ -47,18 +49,23 @@ namespace ClickToCall.Web.Controllers
             return Json(new { success = true, message = "Phone call incoming!"});
         }
 
-        private string GetUri(string salesNumber, bool isProduction = false)
+        private string GetUri(string salesNumber)
         {
-            if (isProduction)
+            if (IsProduction())
             {
                 return Url.Action("Connect", "Call", null, Request.Url.Scheme);
             }
 
-            var requestUrlScheme = Request.Url.Scheme;
-            var domain = ConfigurationManager.AppSettings["TestDomain"];
             var urlAction = Url.Action("Connect", "Call", new { salesNumber });
 
-            return $"{requestUrlScheme}://{domain}{urlAction}";
+            var origin = Request.Headers[OriginHeader];
+            return $"{origin}{urlAction}";
+        }
+
+        private bool IsProduction()
+        {
+            var origin = Request.Headers[OriginHeader];
+            return !new List<string> {"ngrok.io", "localhost"}.Any(domain => origin.Contains(domain));
         }
     }
 }
