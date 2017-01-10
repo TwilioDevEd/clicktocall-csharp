@@ -3,7 +3,7 @@ using System.Web;
 using System.Xml.XPath;
 using ClickToCall.Web.Controllers;
 using ClickToCall.Web.Services;
-using ClickToCall.Web.Tests.Extensions;
+using FluentMvcTesting.Extensions;
 using Moq;
 using NUnit.Framework;
 using TestStack.FluentMVCTesting;
