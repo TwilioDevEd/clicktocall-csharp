@@ -1,12 +1,15 @@
-﻿using System.Configuration;
-using ClickToCall.Web.Services.Exceptions;
-using Twilio;
+﻿using System;
+using System.Configuration;
+using System.Threading.Tasks;
+using Twilio.Clients;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace ClickToCall.Web.Services
 {
     public interface INotificationService
     {
-        void MakePhoneCall(string from, string to, string uriHandler);
+        Task<CallResource> MakePhoneCallAsync(string to, string from, string uriHandler);
     }
 
     public class NotificationService : INotificationService
@@ -20,13 +23,10 @@ namespace ClickToCall.Web.Services
             _client = new TwilioRestClient(accountSid, authToken);
         }
 
-        public void MakePhoneCall(string from, string to, string uriHandler)
+        public async Task<CallResource> MakePhoneCallAsync(string to, string from, string uriHandler)
         {
-            var call = _client.InitiateOutboundCall(from, to, uriHandler);
-            if (call.RestException != null)
-            {
-                throw new NotificationException(call.RestException.Message);
-            }
+            return await CallResource.CreateAsync(
+                    new PhoneNumber(to), new PhoneNumber(from), url: new Uri(uriHandler), client: _client);
         }
     }
 

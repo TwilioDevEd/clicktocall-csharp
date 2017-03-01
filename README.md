@@ -1,4 +1,8 @@
-# Click-To-Call - ASP.NET MVC: Converting web traffic into phone calls with Twilio.
+<a href="https://www.twilio.com">
+  <img src="https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg" alt="Twilio" width="250" />
+</a>
+
+# Click to Call with ASP.NET MVC and Twilio
 
 [![Build status](https://ci.appveyor.com/api/projects/status/vs9wpc0k3b6c9ixw?svg=true)](https://ci.appveyor.com/project/TwilioDevEd/clicktocall-csharp)
 
@@ -10,26 +14,12 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 
 1. First clone this repository and `cd` into it.
 
+   ```shell
+   $ git clone git@github.com:TwilioDevEd/clicktocall-csharp.git
+   $ cd clicktocall-csharp
    ```
-   git clone git@github.com:TwilioDevEd/clicktocall-csharp.git
 
-   cd clicktocall-csharp
-   ```
-
-2. Create a new file ClickToCall.Web/Local.config and update the content.
-
-   ```
-   <appSettings>
-        <add key="TwilioAccountSID" value="your_account_SID" />
-	    <add key="TwilioAuthToken" value="your_twilio_auth_token" />
-	    <add key="TwilioNumber" value="your_twilio_number" />
-	    <add key="TestDomain" value="[your-ngrok-subdomain].ngrok.io"/>
-   </appSettings>
-   ```
-    Be sure to replace placeholders like `your_account_SID`, `your_twilio_auth_token` and `your_twilio_number` with real information from your
-   [Twilio Account Settings](https://www.twilio.com/user/account/settings).
-
-    Scared about ```[your-ngrok-subdomain]```?. Don't be!, go to [Using ngrok](#ngrok) section
+2. Copy the `ClickToCall.Web/Local.config.example` file to `ClickToCall.Web/Local.config`, and edit it including your credentials for the Twilio API (found at https://www.twilio.com/console/account/settings). You will also need a [Twilio Number](https://www.twilio.com/console/phone-numbers/incoming).
 
 3. Build the solution.
 
@@ -37,14 +27,14 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 
 5. Check it out at [http://localhost:1430](http://localhost:1430)
 
-That's it
+### Using ngrok
 
-#### Using ngrok<a name="ngrok">
+Endpoints like `/Call/Connect` needs to be publicly accessible. [We recommend using ngrok to solve this problem][twilio-ngrok].
 
-Endpoints like `/Call/Connect` needs to be publicly accessible. [We recommend using ngrok to solve this problem](https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html).
+[twilio-ngrok]: https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html
 
-```
-ngrok http 1430 -host-header="localhost:1430"
+```shell
+$ ngrok http 1430 -host-header="localhost:1430"
 ```
 
 ## Meta

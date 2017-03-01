@@ -1,7 +1,7 @@
 ﻿using ClickToCall.Web.Controllers;
 using ClickToCall.Web.Models;
 using ClickToCall.Web.Services;
-using ClickToCall.Web.Tests.Mocks;
+using FluentMvcTesting.Extensions.Mocks;
 using Moq;
 using NUnit.Framework;
 using TestStack.FluentMVCTesting;
@@ -19,7 +19,7 @@ namespace ClickToCall.Web.Tests.Controllers
             var controller = new CallCenterController(mockNotificationService.Object)
                 {
                     ControllerContext = mockControllerProperties.ControllerContext,
-                    Url = mockControllerProperties.Url
+                    Url = mockControllerProperties.Url(RouteConfig.RegisterRoutes)
                 };
 
             var callViewModel = new CallViewModel {UserNumber = "user-number", SalesNumber = "sales-number"};
@@ -30,8 +30,9 @@ namespace ClickToCall.Web.Tests.Controllers
                         Assert.That(data.message, Is.EqualTo("Phone call incoming!"));
                     });
 
+            const string expectedUriHandler = "http://www.example.com/Call/Connect?salesNumber=sales-number";
             mockNotificationService.Verify(
-                s => s.MakePhoneCall("twilio-number", "user-number", "http://test.domain.com"), Times.Once());
+                s => s.MakePhoneCallAsync("user-number", "twilio-number", expectedUriHandler), Times.Once());
         }
     }
 }
