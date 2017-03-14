@@ -1,11 +1,12 @@
 ﻿using System.Configuration;
 using System.Web.Mvc;
 using ClickToCall.Web.Services;
+using Twilio.AspNet.Mvc;
 using Twilio.TwiML;
 
 namespace ClickToCall.Web.Controllers
 {
-    public class CallController : Controller
+    public class CallController : TwilioController
     {
         private readonly IRequestValidationService _requestValidationService;
 
@@ -34,7 +35,7 @@ namespace ClickToCall.Web.Controllers
                 .Dial(salesNumber)
                 .Hangup();
 
-            return Content(response.ToString(), "text/xml");
+            return TwiML(response);
         }
     }
 }
