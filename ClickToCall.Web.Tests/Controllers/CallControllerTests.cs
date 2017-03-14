@@ -3,7 +3,7 @@ using System.Web;
 using System.Xml.XPath;
 using ClickToCall.Web.Controllers;
 using ClickToCall.Web.Services;
-using FluentMvcTesting.Extensions;
+using ClickToCall.Web.Tests.Extensions;
 using Moq;
 using NUnit.Framework;
 using TestStack.FluentMVCTesting;
@@ -44,7 +44,7 @@ namespace ClickToCall.Web.Tests.Controllers
             var controller = new CallController(_mockValidatorService.Object);
             controller
                 .WithCallTo(c => c.Connect("sales-number"))
-                .ShouldReturnXmlResult(data =>
+                .ShouldReturnTwiMLResult(data =>
                 {
                     StringAssert.Contains(
                         "Thanks for contacting", data.XPathSelectElement("Response/Say").Value);
