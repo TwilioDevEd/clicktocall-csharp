@@ -15,7 +15,7 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 1. First clone this repository and `cd` into it.
 
    ```shell
-   $ git clone git@github.com:TwilioDevEd/clicktocall-csharp.git
+   $ git clone https://github.com/TwilioDevEd/clicktocall-csharp.git
    $ cd clicktocall-csharp
    ```
 
