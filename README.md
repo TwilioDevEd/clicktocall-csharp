@@ -25,17 +25,16 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 
 4. Run the application.
 
-5. Check it out at [http://localhost:1430](http://localhost:1430)
+5. If testing locally, set up and run [ngrok][twilio-ngrok]: `ngrok http 1430 -host-header="localhost:1430"` (or use the [ngrok Visual Studio extension][ngrok-vs])
+
+5. Check it out at your ngrok address: https://xxxxxx.ngrok.io
 
 ### Using ngrok
 
 Endpoints like `/Call/Connect` needs to be publicly accessible. [We recommend using ngrok to solve this problem][twilio-ngrok].
 
 [twilio-ngrok]: https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html
-
-```shell
-$ ngrok http 1430 -host-header="localhost:1430"
-```
+[ngrok-vs]: https://marketplace.visualstudio.com/items?itemName=DavidProthero.NgrokExtensions
 
 ## Meta
 
