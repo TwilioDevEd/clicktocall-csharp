@@ -23,11 +23,13 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 
 3. Build the solution.
 
-4. Run the application.
+4. If testing locally, set up and run [ngrok][twilio-ngrok]: `ngrok http 1430 host-header="localhost:1430"` (or use the [ngrok Visual Studio extension][ngrok-vs])
 
-5. If testing locally, set up and run [ngrok][twilio-ngrok]: `ngrok http 1430 -host-header="localhost:1430"` (or use the [ngrok Visual Studio extension][ngrok-vs])
+5. Be sure to update the "PublicUrl" AppSetting in `ClickToCall.Web/Local.config` to match your ngrok URL (without a trailing slash).
 
-5. Check it out at your ngrok address: https://xxxxxx.ngrok.io
+6. Run the application.
+
+7. Check it out at your ngrok address: https://xxxxxx.ngrok.io
 
 ### Using ngrok
 

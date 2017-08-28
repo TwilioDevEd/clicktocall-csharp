@@ -58,14 +58,22 @@ namespace ClickToCall.Web.Controllers
 
             var urlAction = Url.Action("Connect", "Call", new {salesNumber});
 
-            var origin = Request.Headers[OriginHeader];
+            var origin = GetOrigin();
             return $"{origin}{urlAction}";
         }
 
         private bool IsProduction()
         {
-            var origin = Request.Headers[OriginHeader];
+            var origin = GetOrigin();
             return !new List<string> {"ngrok.io", "localhost"}.Any(domain => origin.Contains(domain));
+        }
+
+        private string GetOrigin()
+        {
+            // Note: As of 8/28/17, FireFox doesn't send the Origin header on AJAX requests
+            // As a fallback, configure your public URL in the "PublicUrl" AppSetting
+            var origin = Request.Headers[OriginHeader] ?? ConfigurationManager.AppSettings["PublicUrl"];
+            return origin;
         }
     }
 }
