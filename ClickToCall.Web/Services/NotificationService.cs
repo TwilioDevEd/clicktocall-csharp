@@ -26,7 +26,7 @@ namespace ClickToCall.Web.Services
         public async Task<CallResource> MakePhoneCallAsync(string to, string from, string uriHandler)
         {
             return await CallResource.CreateAsync(
-                    new PhoneNumber(to), new PhoneNumber(from), url: new Uri(uriHandler), client: _client);
+                    new PhoneNumber(to), new PhoneNumber(from), url: new Uri(uriHandler), client: _client,record:true);
         }
     }
 
