@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,7 +46,15 @@ namespace ClickToCall.Web.Controllers
 
             var twilioNumber = ConfigurationManager.AppSettings["TwilioNumber"];
             var uriHandler = GetUri(callViewModel.SalesNumber);
-            await _notificationService.MakePhoneCallAsync(callViewModel.UserNumber, twilioNumber, uriHandler);
+            try
+            {
+                await _notificationService.MakePhoneCallAsync(callViewModel.UserNumber, twilioNumber, uriHandler);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return Json(new { success = false, message = "Twilio API Error: " + e.Message });
+            }
 
             return Json(new { success = true, message = "Phone call incoming!"});
         }
