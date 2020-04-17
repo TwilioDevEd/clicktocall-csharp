@@ -31,11 +31,11 @@ Click-to-call enables your company to convert web traffic into phone calls with 
 
 6. Run the application.
 
-7. Check it out at your ngrok address: https://xxxxxx.ngrok.io
+7. Check it out at your ngrok address: https://<your-ngrok-subdomain>.ngrok.io
 
 ### Using ngrok
 
-Endpoints like `/Call/Connect` needs to be publicly accessible. [We recommend using ngrok to solve this problem][twilio-ngrok].
+Endpoints like `https://<your-ngrok-subdomain>.ngrok.io/Call/Connect` needs to be publicly accessible. [We recommend using ngrok to solve this problem][twilio-ngrok].
 
 [twilio-ngrok]: https://www.twilio.com/blog/2015/09/6-awesome-reasons-to-use-ngrok-when-testing-webhooks.html
 [ngrok-vs]: https://marketplace.visualstudio.com/items?itemName=DavidProthero.NgrokExtensions
@@ -43,5 +43,6 @@ Endpoints like `/Call/Connect` needs to be publicly accessible. [We recommend us
 ## Meta
 
 * No warranty expressed or implied. Software is as is. Diggity.
+* The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/).
 * [MIT License](http://www.opensource.org/licenses/mit-license.html)
 * Lovingly crafted by Twilio Developer Education.

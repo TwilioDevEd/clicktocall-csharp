@@ -2,5 +2,5 @@
     <add key="TwilioAccountSID" value="your-twilio-account-sid" />
     <add key="TwilioAuthToken" value="your-auth-token" />
     <add key="TwilioNumber" value="your-twilio-phone-number" />
-    <add key="PublicUrl" value="https://d81ff493.ngrok.io"/>
+    <add key="PublicUrl" value="https://<your-ngrok-subdomain>.ngrok.io"/>
 </appSettings>
