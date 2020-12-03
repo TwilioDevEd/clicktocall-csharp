@@ -214,3 +214,4 @@ ModelManifest.xml
 
 # Project specific
 ClickToCall.Web/Local.config
+ClickToCall.Web/Scripts/lib/

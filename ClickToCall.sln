@@ -1,11 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickToCall.Web", "ClickToCall.Web\ClickToCall.Web.csproj", "{4A37AB0E-3A99-4036-BA2C-D9669C8F7A2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickToCall.Web.Tests", "ClickToCall.Web.Tests\ClickToCall.Web.Tests.csproj", "{64B6D95E-E67A-482B-83C5-DB0AA8C0D38F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6F92FACC-F186-4817-861E-A1B7D8F5AC53}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.mergify.yml = .mergify.yml
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{844CDC5A-B68A-4BA7-937E-AF64D935A81F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{E0A49139-1D30-4006-A1BB-A44646FEF803}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\NetFx.yml = .github\workflows\NetFx.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +42,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{844CDC5A-B68A-4BA7-937E-AF64D935A81F} = {6F92FACC-F186-4817-861E-A1B7D8F5AC53}
+		{E0A49139-1D30-4006-A1BB-A44646FEF803} = {844CDC5A-B68A-4BA7-937E-AF64D935A81F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64839DC3-0BD5-4695-9E40-493373B90038}
 	EndGlobalSection
 EndGlobal

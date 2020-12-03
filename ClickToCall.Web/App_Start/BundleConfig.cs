@@ -8,31 +8,17 @@ namespace ClickToCall.Web
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
-
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
-
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/intlTelInput").Include(
+            bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
+                      "~/Scripts/lib/dist/js/jquery.js",
+                      "~/Scripts/lib/dist/js/bootstrap.js",
                       "~/Scripts/intl-phone/js/intlTelInput.js",
-                      "~/Scripts/intl-phone/libphonenumber/build/utils.js"));
+                      "~/Scripts/intl-phone/libphonenumber/build/utils.js",
+                      "~/Scripts/app.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+            bundles.Add(new StyleBundle("~/Content/styles").Include(
+                      "~/Scripts/lib/dist/css/bootstrap.css",
+                      "~/Content/intl-phone/css/intlTelInput.css",
                       "~/Content/site.css"));
-
-            bundles.Add(new StyleBundle("~/Content/intl-phone").Include(
-                      "~/Content/intl-phone/css/intlTelInput.css"));
         }
     }
 }
