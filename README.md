@@ -13,7 +13,7 @@
 
 Click-to-call enables your company to convert web traffic into phone calls with the click of a button. Learn how to implement it in minutes.
 
-[Read the full tutorial here](https://www.twilio.com/docs/tutorials/walkthrough/click-to-call/csharp/mvc)!
+[Read the tutorial here](https://www.twilio.com/docs/voice/tutorials/click-to-call)!
 
 Implementations in other languages:
 
