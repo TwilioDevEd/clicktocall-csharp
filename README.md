@@ -4,28 +4,7 @@
 
 # Click to Call with ASP.NET MVC and Twilio
 
-![](https://github.com/TwilioDevEd/client-quickstart-csharp/workflows/NetFx/badge.svg)
-[![Build status](https://ci.appveyor.com/api/projects/status/vs9wpc0k3b6c9ixw?svg=true)](https://ci.appveyor.com/project/TwilioDevEd/clicktocall-csharp)
-
-> We are currently in the process of updating this sample template. If you are encountering any issues with the sample, please open an issue at [github.com/twilio-labs/code-exchange/issues](https://github.com/twilio-labs/code-exchange/issues) and we'll try to help you.
-
-## About
-
-Click-to-call enables your company to convert web traffic into phone calls with the click of a button. Learn how to implement it in minutes.
-
-[Read the tutorial here](https://www.twilio.com/docs/voice/tutorials/click-to-call)!
-
-Implementations in other languages:
-
-| Ruby | Java | Python | PHP | Node |
-| :--- | :--- | :----- | :-- | :--- |
-| [Done](https://github.com/TwilioDevEd/clicktocall-rails) | [Done](https://github.com/TwilioDevEd/clicktocall-spring)  | [Done](https://github.com/TwilioDevEd/clicktocall-flask)  | [Done](https://github.com/TwilioDevEd/clicktocall-php) | [Done](https://github.com/TwilioDevEd/clicktocall-node)  |
-
-<!--
-### How it works
-
-**TODO: Describe how it works**
--->
+> This repository is archived and no longer maintained. Check out the [Twilio Voice](https://www.twilio.com/docs/voice/) docs for links to other tutorials. 
 
 ## Set up
 
@@ -81,12 +60,6 @@ That's it!
 ## Resources
 
 - The CodeExchange repository can be found [here](https://github.com/twilio-labs/code-exchange/).
-
-## Contributing
-
-This template is open source and welcomes contributions. All contributions are subject to our [Code of Conduct](https://github.com/twilio-labs/.github/blob/master/CODE_OF_CONDUCT.md).
-
-[Visit the project on GitHub](https://github.com/twilio-labs/sample-template-dotnet)
 
 ## License
 
